@@ -1,0 +1,21 @@
+
+
+.vscode文件中保存着整个VScode工程的配置的目录
+
+.vscode
+      |--launch.json-----保存着一些配置，调试时，vscode会从中读取一些参数。如：
+                                "program"表示在调试时会加载改路径指示下的文件，
+                                "MIDebuggerPath"表示使用什么启动调试
+                                "miDebuggerServerAddress"表示在什么端口号启动调试
+      |--settings.json-----了解或不了解都没关系，给vscode的一些设置信息
+
+      |--tasks.json-----给vscode的一些应用，当点击vscode终端->运行任务所显示的任务就是通过这个文件设置的
+
+
+script 下存的是一些shell脚本文件
+
+
+source 文件夹是按目录来组织存储工程，每一个子目录都是一个工程，外部的CMakeLists.txt就是整个大工程的配置文件
+每个子目录下的CMakeLists.txt文件就是用来配置子工程的
+
+

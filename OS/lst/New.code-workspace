@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "../../../New"
+		}
+	],
+	"settings": {
+		"cmake.options.statusBarVisibility": "MinGW Makefiles"
+	}
+}

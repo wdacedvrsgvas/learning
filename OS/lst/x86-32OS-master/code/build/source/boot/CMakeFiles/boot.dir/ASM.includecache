@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/jenny/Desktop/OS/code/source/boot/boot.h
+
+C:/Users/jenny/Desktop/OS/code/source/boot/start.S
+boot.h
+C:/Users/jenny/Desktop/OS/code/source/boot/boot.h
+
