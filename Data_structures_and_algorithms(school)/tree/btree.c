@@ -97,3 +97,33 @@ BTNode *RchildNode(BTNode *p)
 {
     return p->rchild;
 }
+
+int BTHeight(BTNode *b)
+{
+    int lchildh, rchildh;
+    if (b == NULL)
+        return (0);
+    else
+    {
+        lchildh = BTHeight(b->lchild);
+        rchildh = BTHeight(b->rchild);
+        return (lchildh > rchild) ? (lchildh + 1) : (rchildh + 1);
+    }
+}
+
+void DisBTree(BTNode *b)
+{
+    if (b != NULL)
+    {
+        printf("%c", b->data);
+        if (b->lchild != NULL || b->rchild != NULL)
+        {
+            printf("(");
+            DispBTree(b->lchild);
+            if (b->rchild != NULL)
+                printf(",");
+            DisBTree(b->rchild);
+            printf(")");
+        }
+    }
+}
