@@ -168,6 +168,7 @@ void CreateTable(HList *&h)
         else
             r->next = s;
         r = s;
+        
     }
     r->next = NULL;
 } // 尾结点next域置空
