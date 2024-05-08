@@ -42,7 +42,7 @@ typedef struct       // 记录类型
 // i＝1~n-1，共经过n-1趟排序
 void InsertSort(RecType R[]，int n)
 {
-    int i， j;
+    int i, j;
     RecType tmp;
     for (i = 1; i < n; i++)
     {
@@ -62,3 +62,84 @@ void InsertSort(RecType R[]，int n)
 // 算法分析    最好：O(n)  最坏：O(n2)  最坏：O(n2)
 
 // 1.2折半插入排序
+void BinInsertSort(RecType R[], int n)
+{
+    int i, j, low, high, mid;
+    RecType tmp;
+    for (i = 1; i < n; i++)
+    {
+        if (R[i].key<R[i-1].key])		//反序时
+        {
+            tmp = R[i]; // 将R[i]保存到tmp中
+            low = 0;
+            high = i - 1;
+            while (low <= high) // 在R[low..high]中查找插入的位置
+            {
+                mid = (low + high) / 2; // 取中间位置
+                if (tmp.key < R[mid].key)
+                    high = mid - 1; // 插入点在左半区
+                else
+                    low = mid + 1;              // 插入点在右半区
+            }                                   // 找位置high
+            for (j = i - 1; j >= high + 1; j--) // 记录后移
+                R[j + 1] = R[j];
+            R[high + 1] = tmp; // 插入tmp
+        }
+    }
+}
+// 算法分析
+// 折半插入排序：在R[0..i-1]中查找插入R[i]的位置，折半查找的平均关键字比较次数为log2(i+1)-1，平均移动元素的次数为i/2+2，所以平均时间复杂度为：
+// 平均时间复杂度  O(n2)
+
+// 1.3希尔排序
+// 基本思路
+//   d=n/2
+//  将排序序列分为d个组，在各组内进行直接插入排序
+//  递减d=d/2，重复② ，直到d=1
+// 算法最后一趟对所有数据进行了直接插入排序，所以结果一定是正确的。
+void ShellSort(RecType R[], int n)
+{
+    int i, j, d;
+    RecType tmp;
+    d = n / 2; // 增量置初值
+    while (d > 0)
+    {
+        for (i = d; i < n; i++)
+        { // 对相隔d位置的元素组直接插入排序
+            tmp = R[i];
+            j = i - d;
+            while (j >= 0 && tmp.key < R[j].key)
+            {
+                R[j + d] = R[j];
+                j = j - d;
+            }
+            R[j + d] = tmp;
+        }
+        d = d / 2; // 减小增量
+    }
+}
+// 直接插入排序 :
+// for (i = 1; i < n; i++)
+// {
+//     tmp = R[i];
+//     j = i - 1;
+//     while (j >= 0 && tmp.key < R[j].key)
+//     {
+//         R[j + 1] = R[j];
+//         j = j - 1;
+//     }
+//     R[j + 1] = tmp;
+// }
+// 时间复杂度约为O(n^1.3)
+// 为什么希尔排序比直接插入排序好？
+
+// 2.交换排序
+//  常见的交换排序方法：
+//  （1）冒泡排序（或起泡排序）
+//  （2）快速排序z
+
+// 3.选择排序
+//  （1）简单选择排序（或称直接选择排序）
+//  （2）堆排序
+
+// 4.归并排序
