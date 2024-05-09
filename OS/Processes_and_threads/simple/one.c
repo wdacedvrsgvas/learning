@@ -27,7 +27,8 @@ int main()
         // exit(EXOT_FAILURE) 用于退出程序，并返回一个表示失败的退出状态码。在这里，EXOT_FAILURE 应该是一个定义在程序中的错误码，但是可能是拼写错误，正确的应该是 EXIT_FAILURE，它表示程序非正常退出的标志。
     }
     else if (pid == 0)
-    { // 如果fork()成功且返回值为0，这意味着当前执行的是子进程
+    { 
+        // 如果fork()成功且返回值为0，这意味着当前执行的是子进程
         // 子进程
         printf("This is the child process.\n");
         exit(EXIT_SUCCESS);
