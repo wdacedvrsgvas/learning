@@ -187,4 +187,52 @@ codesg segment
 ; 由于在提供的代码中，并没有明确给出 s 标号所指向的具体数据，所以无法确定 mov ax, cs:[si] 指令到底读取了什么内容。
 ; 因此，这行指令读取的是 s 标号所代表的偏移地址处的数据，但是具体是什么数据取决于程序执行时 s 标号所代表的位置的内容
 
-;​ jmp short 标号 jmp near ptr 标号 jcxz 标号 loop 标号
+;​ jmp short 标号 jmp near ptr 标号 jcxz 标号 loop 标号   等几种汇编指令，它们对 IP的修改
+;1、依据位移进行转移的jmp指令
+;jmp short 标号（段内短转移）
+;指令“jmp short 标号”的功能为(IP)=(IP)+8位位移，转到标号处执行指令
+;（1）8位位移 = “标号”处的地址 - jmp指令后的第一个字节的地址；
+;（2）short指明此处的位移为8位位移；
+;（3）8位位移的范围为-128~127，用补码表示
+;（4）8位位移由编译程序在编译时算出。
+
+assume cs:codesg
+codesg segment
+  start:mov ax,0
+        jmp short s ;s不是被翻译成目的地址
+        add ax, 1
+      s:inc ax ;程序执行后， ax中的值为 1 
+codesg ends
+end start
+;CPU不需要这个目的地址就可以实现对IP的修改。这里是依据位移进行转移
+;jmp short s指令的读取和执行过程：
+; (CS)=0BBDH，(IP)=0006，上一条指令执行结束后CS:IP指向EB 03（jmp short s的机器码）；
+; 读取指令码EB 03进入指令缓冲器；
+; (IP) = (IP) + 所读取指令的长度 = (IP) + 2 = 0008，CS:IP指向add ax,1；
+; CPU指行指令缓冲器中的指令EB 03；
+; 指令EB 03执行后，(IP)=000BH，CS:IP指向inc ax
+; jmp near ptr 标号 （段内近转移）
+; 指令“jmp near ptr 标号”的功能为：(IP) = (IP) + 16位位移。
+
+;2、转移的目的地址在指令中的jmp指令
+; jmp far ptr 标号（段间转移或远转移）
+; 指令 “jmp far ptr 标号” 功能如下：
+; (CS) = 标号所在段的段地址；
+; (IP) = 标号所在段中的偏移地址。
+; far ptr指明了指令用标号的段地址和偏移地址修改CS和IP。
+assume cs:codesg
+codesg segment
+   start: mov ax, 0
+		  mov bx, 0
+          jmp far ptr  s ;s被翻译成转移的目的地址0B01 BD0B
+          db 256 dup (0) ;转移的段地址：0BBDH，偏移地址：010BH
+    s:    add ax,1
+          inc ax
+codesg ends
+end start
+
+;3、转移地址在寄存器或内存中的jmp指令
+
+
+
+
