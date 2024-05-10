@@ -114,3 +114,54 @@ codesg segment
 codesg ends
 end start
 
+;bx和si、bx和di、bp和si、bp和di
+
+;不关心数据的值是多少 地方：CPU内部、内存、端口
+;立即数（idata）
+mov ax, 1                 ;对于直接包含在机器指令中的数据（执行前在CPU的指令缓冲器中）
+add bx, 2000h             ;在汇编语言中称为：立即数（idata）
+or bx, 00010000b
+mov al, 'a'
+;寄存器
+mov ax, bx     ;指令要处理的数据在寄存器中，在汇编指令中给出相应的寄存器名。
+mov ds, ax 
+push bx 
+mov ds:[0], bx 
+push ds 
+mov ss, ax
+mov sp, ax
+;段地址（SA）和偏移地址（EA）
+;指令要处理的数据在内存中，在汇编指令中可用[X]的格式给出EA，SA在某个段寄存器中。
+mov ax, [0]
+mov ax, [di]
+mov ax, [bx+8]
+mov ax, [bx+si]
+mov ax, [bx+si+8]   ;以上段地址默认在ds中
+
+mov ax, [bp]
+mov ax, [bp+8]
+mov ax, [bp+si]
+mov ax, [bp+si+8]   ;以上段地址默认在ss中
+
+mov ax, ds:[bp]
+mov ax, es:[bx]
+mov ax, ss:[bx+si]
+mov ax, cs:[bx+si+8] ;显式给出存放段地址的寄存器
+
+;div是除法指令
+;利用除法指令计算100001/100。
+;100001D = 186A1H
+mov dx, 1
+mov ax, 86A1H ;(dx)*10000H+(ax)=100001
+mov bx, 100
+div bx
+
+;利用除法指令计算1001/100
+mov ax, 1001
+mov bl, 100
+div b1
+
+db 3 dup (0)       ;定义了3个字节，它们的值都是0，相当于db 0，0，0。
+db 3 dup (0, 1, 2) ;定义了9个字节，它们是0、1、2、0、1、2、0、1、2，相当于db 0，1，2，0，1，2，0，1，2。
+db 3 dup ('abc', 'ABC') ;定义了18个字节，它们是abcABCabcABCabcABCC，相当于db 'abc', 'ABC' ,'abc' , 'ABC, 'abc', 'ABC'。
+
