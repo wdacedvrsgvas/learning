@@ -174,7 +174,7 @@ codesg segment
     s:  mov ax, bx           ;（mov ax,bx 的机器码占两个字节）
         mov si, offset s     ;这行代码将标号s的偏移地址（offset）加载到si寄存器中。在汇编语言中，偏移地址表示了在段中的位置。
         mov di, offset s0    ;获得标号s0的偏移地址
-      
+
         mov ax, cs:[si] ;这行代码从cs（代码段）中，根据si寄存器中的偏移地址，读取一个字（16位），并将其加载到ax寄存器中。
         mov cs:[di], ax
     s0: nop                     ;（nop的机器码占一个字节）
@@ -196,9 +196,18 @@ codesg segment
 ;（3）8位位移的范围为-128~127，用补码表示
 ;（4）8位位移由编译程序在编译时算出。
 
+
+
+jmp short s指令的读取和执行过程如下： 
+(1) (CS)=076C,(IP)=0000，执行完 mov ax,0 后CS:IP指向了 EB 03 (jmp short s机器码)； 
+(2) 读取指令码 EB 03 进入指令缓冲器； 
+(3) (IP) = (IP) + 所读取指令的长度 = (IP) + 2 = 5，CS:IP指向了add ax,1； 
+(4) CPU执行指令缓冲器中的指令 EB 03 ； 
+(5) 指令执行后 IP+位移 =(IP) + 3 = 8，CS:IP(076C:0008) 指向->inc ax
+
 assume cs:codesg
 codesg segment
-  start:mov ax,0
+    start:mov ax,0
         jmp short s ;s不是被翻译成目的地址
         add ax, 1
       s:inc ax ;程序执行后， ax中的值为 1 
@@ -236,3 +245,22 @@ end start
 
 
 
+;call和ret指令
+assume cs:code,ss:stack
+
+stack segment
+    db 16 dup(0)
+stack ends
+
+code segment
+            mov ax,4c00h
+            int 21H
+    main:   
+            mov ax,stack
+            mov ss,ax
+            mov sp,16
+            mov ax,0
+            push ax
+        ret
+code ends
+end main
