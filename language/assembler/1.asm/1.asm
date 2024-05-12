@@ -254,13 +254,13 @@ stack ends
 
 code segment
             mov ax,4c00h
-            int 21H
+            int 21H   ;退出到DOS
     main:   
             mov ax,stack
             mov ss,ax
             mov sp,16
             mov ax,0
-            push ax
-        ret
+            push ax   ;压栈
+        ret         ;pop ip, ->cs:ip cs:0 ,让程序跳到入口处上面
 code ends
 end main
