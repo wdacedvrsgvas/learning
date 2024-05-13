@@ -79,8 +79,8 @@ void BinInsertSort(RecType R[], int n)
                 if (tmp.key < R[mid].key)
                     high = mid - 1; // 插入点在左半区
                 else
-                    low = mid + 1;              // 插入点在右半区
-            }                                   // 找位置high
+                    low = mid + 1; // 插入点在右半区
+            } // 找位置high
             for (j = i - 1; j >= high + 1; j--) // 记录后移
                 R[j + 1] = R[j];
             R[high + 1] = tmp; // 插入tmp
@@ -143,3 +143,65 @@ void ShellSort(RecType R[], int n)
 //  （2）堆排序
 
 // 4.归并排序
+
+// Merge()：一次二路归并，将两个相邻的有序子序列归并为一个有序序列。
+void Merge(RecType R[], int low, int mid, int high)
+{
+    RecType *R1;
+    int i = low, j = mid + 1, k = 0;
+    // k是R1的下标，i、j分别为第1、2段的下标
+    R1 = (RecType *)malloc((high - low + 1) * sizeof(RecType));
+    while (i <= mid && j <= high)
+        if (R[i].key <= R[j].key) // 将第1段的记录放R1中
+        {
+            R1[k] = R[i];
+            i++;
+            k++;
+        }
+        else
+            　　　　 //将第2段中的记录放入R1中
+            {
+                R1[k] = R[j];
+                j++;
+                k++;
+            }
+    while (i <= mid) // 将第1段余下部分复制到R1
+    {
+        R1[k] = R[i];
+        i++;
+        k++;
+    }
+    while (j <= high) // 将第2段余下部分复制到R1
+    {
+        R1[k] = R[j];
+        j++;
+        k++;
+    }
+    for (k = 0，i = low; i <= high; k++，i++)
+        R[i] = R1[k];
+    free(R1);
+}
+
+// MergePass()：一趟二路归并（段长度为length ）。
+void MergePass(RecType R[], int length, int n)
+{
+    int i;
+    for (i = 0; i + 2 * length - 1 < n; i = i + 2 * length)
+        Merge(R, i, i + length - 1，i + 2 * length - 1);
+    if (i + length - 1 < n)                 // 余下两个子表，后者长度小length
+        Merge(R，i，i + length - 1，n - 1); // 归并这两子表
+}
+
+// MergeSort()：二路归并排序算法：
+void MergeSort(RecType R[]，int n)
+{
+    int length;
+    for (length = 1; length < n; length = 2 * length)
+        MergePass(R，length，n);
+}
+//[log2n]趟
+
+// 归并算法分析
+//   每一趟归并的时间复杂度为 O(n)
+//   总共需进行[log2n]趟趟。
+//  二路归并排序的时间复杂度为Ο(nlog2n)。

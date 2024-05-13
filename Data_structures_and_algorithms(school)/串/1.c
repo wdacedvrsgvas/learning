@@ -199,3 +199,173 @@ int StrLength(LiString *s)
     }
     return i;
 }
+// 串连接
+LiString *Concat(LiString *s, LiString *t)
+{
+    LiString *str, *p = s->next, *q, *r;
+    str = (LiString *)malloc(sizeof(LiString));
+    r = str;
+    while (p != NULL) // 将s的所有节点复制到str
+    {
+        q = (LiString *)malloc(sizeof(LiString));
+        q->data = p->data;
+        r->next = q;
+        r = q;
+        p = p->next;
+    }
+    p = t->next;
+    while (p != NULL) // 将t的所有节点复制到str
+    {
+        q = (LiString *)malloc(sizeof(LiString));
+        q->data = p->data;
+        r->next = q;
+        r = q;
+        p = p->next;
+    }
+    r->next = NULL;
+    return str;
+}
+// 求子串
+LiString *SubStr(LiString *s, int i, int j)
+{
+    int k;
+    LiString *str, *p = s->next, *q, *r;
+    str = (LiString *)malloc(sizeof(LiString));
+    str->next = NULL;
+    r = str; // r指向新建链表的尾节点
+    if (i <= 0 || i > StrLength(s) || j < 0 || i + j - 1 > StrLength(s))
+        return str; // 参数不正确时返回空串
+    for (k = 0; k < i - 1; k++)
+        p = p->next;
+    for (k = 1; k <= j; k++) // 将s的第i个节点开始的j个节点复制到str
+    {
+        q = (LiString *)malloc(sizeof(LiString));
+        q->data = p->data;
+        r->next = q;
+        r = q;
+        p = p->next;
+    }
+    r->next = NULL;
+    return str;
+}
+// 将串s2插入到串s1的第i（1≤i≤StrLength(s)+1）个字符位置，即将s2的第1个字符作为s1的第i个字符，s2的第2个字符作为s1的第i+1个字符，等等，并返回产生的新串, 参数不正确时返回一个空串。
+LiString *InsStr(LiString *s, int i, LiString *t)
+{
+    int k;
+    LiString *str, *p = s->next, *p1 = t->next, *q, *r;
+    str = (LiString *)malloc(sizeof(LiString));
+    str->next = NULL;
+    r = str; // r指向新建链表的尾节点
+    if (i <= 0 || i > StrLength(s) + 1)
+        return str;         // 参数不正确时返回空串
+    for (k = 1; k < i; k++) // 将s的前i个节点复制到str
+    {
+        q = (LiString *)malloc(sizeof(LiString));
+        q->data = p->data;
+        r->next = q;
+        r = q;
+        p = p->next;
+    }
+    while (p1 != NULL) // 将t的所有节点复制到str
+    {
+        q = (LiString *)malloc(sizeof(LiString));
+        q->data = p1->data;
+        r->next = q;
+        r = q;
+        p1 = p1->next;
+    }
+    while (p != NULL) // 将*p及其后的节点复制到str
+    {
+        q = (LiString *)malloc(sizeof(LiString));
+        q->data = p->data;
+        r->next = q;
+        r = q;
+        p = p->next;
+    }
+    r->next = NULL;
+    return str;
+}
+// 从串s中删去从第i（1≤i≤StrLength(s)）个字符开始的长度为j的子串，并返回产生的新串, 参数不正确时返回一个空串。
+LiString *DelStr(LiString *s, int i, int j)
+{
+    int k;
+    LiString *str, *p = s->next, *q, *r;
+    str = (LiString *)malloc(sizeof(LiString));
+    str->next = NULL;
+    r = str; // r指向新建链表的尾节点
+    if (i <= 0 || i > StrLength(s) || j < 0 || i + j - 1 > StrLength(s))
+        return str;             // 参数不正确时返回空串
+    for (k = 0; k < i - 1; k++) // 将s的前i-1个节点复制到str
+    {
+        q = (LiString *)malloc(sizeof(LiString));
+        q->data = p->data;
+        r->next = q;
+        r = q;
+        p = p->next;
+    }
+    for (k = 0; k < j; k++) // 让p沿next跳j个节点
+        p = p->next;
+    while (p != NULL) // 将*p及其后的节点复制到str
+    {
+        q = (LiString *)malloc(sizeof(LiString));
+        q->data = p->data;
+        r->next = q;
+        r = q;
+        p = p->next;
+    }
+    r->next = NULL;
+    return str;
+}
+// 在串s中，将第i（1≤i≤StrLength(s)）个字符开始的j个字符构成的子串用串t替换，并返回产生的新串，参数不正确时返回一个空串。
+LiString *RepStr(LiString *s, int i, int j, LiString *t)
+{
+    int k;
+    LiString *str, *p = s->next, *p1 = t->next, *q, *r;
+    str = (LiString *)malloc(sizeof(LiString));
+    str->next = NULL;
+    r = str; // r指向新建链表的尾节点
+    if (i <= 0 || i > StrLength(s) || j < 0 || i + j - 1 > StrLength(s))
+        return str;             // 参数不正确时返回空串
+    for (k = 0; k < i - 1; k++) // 将s的前i-1个节点复制到str
+    {
+        q = (LiString *)malloc(sizeof(LiString));
+        q->data = p->data;
+        q->next = NULL;
+        r->next = q;
+        r = q;
+        p = p->next;
+    }
+    for (k = 0; k < j; k++) // 让p沿next跳j个节点
+        p = p->next;
+    while (p1 != NULL) // 将t的所有节点复制到str
+    {
+        q = (LiString *)malloc(sizeof(LiString));
+        q->data = p1->data;
+        q->next = NULL;
+        r->next = q;
+        r = q;
+        p1 = p1->next;
+    }
+    while (p != NULL) // 将*p及其后的节点复制到str
+    {
+        q = (LiString *)malloc(sizeof(LiString));
+        q->data = p->data;
+        q->next = NULL;
+        r->next = q;
+        r = q;
+        p = p->next;
+    }
+    r->next = NULL;
+    return str;
+}
+// 输出串s的所有元素值。
+void DispStr(LiString *s)
+{
+    LiString *p = s->next;
+    while (p != NULL)
+    {
+        printf("%c", p->data);
+        p = p->next;
+    }
+    printf("\n");
+}
