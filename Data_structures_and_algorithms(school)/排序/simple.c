@@ -205,3 +205,51 @@ void MergeSort(RecType R[]，int n)
 //   每一趟归并的时间复杂度为 O(n)
 //   总共需进行[log2n]趟趟。
 //  二路归并排序的时间复杂度为Ο(nlog2n)。
+
+// 基数排序
+// 基数排序有两种：最低位优先（LSD）和最高位优先（MSD）
+#define MAXE 20 // 线性表中最多元素个数
+#define MAXR 10 // 基数的最大取值
+#define MAXD 8  // 关键字位数的最大取值
+typedef struct node
+{
+    char data[MAXD]; // 记录的关键字定义的字符串
+    struct node *next;
+} RecType1; // 单链表中每个结点的类型
+void RadixSort(RecType1 *&p，int r，int d)
+{
+    RecType1 *head[MAXR]， *tail[MAXR]， *t;
+    int i， j， k;
+    for (i = 0; i < d; i--) // 从低位到高位做d趟排序
+    {
+        for (j = 0; j < r; j++) // 初始化各链队首、尾指针
+            head[j] = tail[j] = NULL;
+        while (p != NULL) // 对于原链表中每个结点循环
+        {
+            k = p->data[i] - '0'; // 找第k个链队
+            if (head[k] == NULL)  // 进行分配，即采用尾插	      {    head[k]=p;  tail[k]=p;  }
+                else
+                {
+                    tail[k]->next = p;
+                    tail[k] = p;
+                }
+            p = p->next; // 取下一个待排序的结点
+        } // 分配
+        p = NULL;
+        for (j = 0; j < r; j++) // 对于每一个链队循环进行收集
+            if (head[j] != NULL)
+            {
+                if (p == NULL)
+                {
+                    p = head[j];
+                    t = tail[j];
+                }
+                else
+                {
+                    t->next = head[j];
+                    t = tail[j];
+                }
+            } // 收集
+        t->next = NULL; // 最后一个结点的next域置NULL
+    }
+}
