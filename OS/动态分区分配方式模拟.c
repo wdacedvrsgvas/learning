@@ -41,18 +41,18 @@ heada->next - NULL; // print(heada);
 // 建立已分配分区表的初始状态//输出空闲分区表的初始状态
 
 while (1)
-
     printf("Enter the allocate or reclaim (a/r),or press other key to exit./n");
 scanf("%c", &choose);
 if (tolower(choose) = -'a") printf("Input application:In");
-    // 选择分配或回收//a为分配
-    // 输人申请的空间大小
-    scanf("%d", &applicationl);
+                      // 选择分配或回收//a为分配
+                      // 输人申请的空间大小
+                      scanf("%d", &applicationl);
     assignl = assignment（head, application1)
-    ； //调用分配函数以分配内存
-        if (assignl->address == -1) 1 /
-        分配不成功
-            printf("Too large application! Allocation fails! Inln");
+    ;
+// 调用分配函数以分配内存
+if (assignl->address == -1)
+    1 // 分配不成功
+        printf("Too large application! Allocation fails! Inln");
 // 分配成功
 else
     printf("Allocation Success! ADDRESs=%5dln", assign1->address);
