@@ -76,12 +76,11 @@ int main()
         }
         
     }
-
-diseffect=0;
-for(i=0;i<total vp;i++) pl[i].pn=i;
-pl[i]·pfn=INVALID; pl[i].counter=0; pl[i].time=-l;
-for(i=0;i<total pf-l;i++) pfc[i].next=&pfc[i+1]; pfc[i].pfn=i;
-pfc[total pf-1].next-NULL;
-pfc[total_pf-1].pfn=total pf-l; freepf head=&pfc[o];
+    diseffect=0;
+    for(i=0;i<total vp;i++) pl[i].pn=i;
+    pl[i]·pfn=INVALID; pl[i].counter=0; pl[i].time=-l;
+    for(i=0;i<total pf-l;i++) pfc[i].next=&pfc[i+1]; pfc[i].pfn=i;
+    pfc[total pf-1].next-NULL;
+    pfc[total_pf-1].pfn=total pf-l; freepf head=&pfc[o];
 }
 
